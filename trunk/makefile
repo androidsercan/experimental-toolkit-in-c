@@ -6,7 +6,7 @@ all: etc-geo etc-text etc-util etc.a
 
 etc.a: etc.a(geo/geo.o geo/kmeans.o geo/quadtree.o \
              text/analyzer.o text/dictionary.o text/doc_index.o text/table.o text/trie.o \
-             util/heap.o util/search.o util/timer.o util/util.o util/vbe.o \
+             util/heap.o util/search.o util/timer.o util/util.o util/vbe.o util/raw_query.o \
              base.o)
 
 base.o : base.h
