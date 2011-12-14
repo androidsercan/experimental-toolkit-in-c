@@ -42,7 +42,6 @@ void Table::Open(const string& csv_file)
   ParseRow(str, &head_row);
   z_column_name_ = head_row.z_value_;
   //
-  istream& is = getline(ifs_, next_line_);
   if (getline(ifs_, next_line_)) {
     has_next_ = true;
   } else {
