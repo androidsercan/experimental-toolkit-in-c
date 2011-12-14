@@ -201,6 +201,7 @@ void Quadtree_Output(const QuadtreeNode& root, const string& filename)
   int counter = 0;
   _Quadtree_Output(root, -1, &counter, ofs);
   ofs << "}" << endl;
+  ofs.close();
 }
 
 //
@@ -320,8 +321,8 @@ void _Quadtree_Add(const Point& point, int m, int d,
   int j = 0;
   if (x < rcx && y <= rcy) j = 0;
   else if (x < rcx && y > rcy) j = 1;
-  else if (x >= rcx && y <= rcy) j = 2;
-  else if (x >= rcx && y > rcy) j = 3;
+  else if (x >= rcx && y > rcy) j = 2;
+  else if (x >= rcx && y <= rcy) j = 3;
   Quadtree_Add(point, m, d, root.pp_child_[j]);
 }
 
@@ -366,6 +367,12 @@ void _Quadtree_Output(const QuadtreeNode& root, int pos, int* p_id,
     ofstream& ofs)
 {
   int root_id = *p_id;
+  //
+  double rcx = (root.br_.coord1_.x_ + root.br_.coord2_.x_) / 2;
+  double rcy = (root.br_.coord1_.y_ + root.br_.coord2_.y_) / 2;
+  double w = root.br_.coord2_.x_ - root.br_.coord1_.x_;
+  double h = root.br_.coord2_.y_ - root.br_.coord1_.y_;
+  //
   string color_str = "#888888";
   if (pos == 0) {
     color_str = "#ff000088";
@@ -385,10 +392,10 @@ void _Quadtree_Output(const QuadtreeNode& root, int pos, int* p_id,
       << "\", label=<";
   ofs << "<font color='gray'>";
   ofs << "n" << root_id << ":";
-  ofs << "(" << Util::Format(root.br_.coord1_.x_, 3) << ","
-      << Util::Format(root.br_.coord1_.y_, 3) << ")";
+  ofs << "(" << Util::Format(rcx, 3) << ","
+      << Util::Format(rcy, 3) << ")";
   ofs << "<br/>";
-  ofs << Util::Format(root.br_.coord2_.x_, 3) << "," << Util::Format(root.br_.coord2_.y_, 3);
+  ofs << Util::Format(w, 3) << "*" << Util::Format(h, 3);
   ofs << "</font>";
   if (root.pp_child_ == NULL) {
     for (int i = 0; i < (int)root.zp_point_.size(); i++) {
